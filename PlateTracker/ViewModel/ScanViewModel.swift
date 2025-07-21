@@ -27,8 +27,12 @@ final class ScanViewModel {
     
     func processRecognizedText(_ text: String) {
         let plate = text.replacingOccurrences(of: " ", with: "").uppercased()
-        guard scanRecords.contains(where: { $0.plate == plate }) == false, plate.count >= 5 else { return }
-        guard let location = currentLocation else { return }
+        
+        let formats: [PlateCountry] = [.uk, .spain, .russia]
+        
+        guard formats.contains(where: { PlateValidator.isValid(plate: plate, for: $0) }),
+              scanRecords.contains(where: { $0.plate == plate }) == false,
+              let location = currentLocation else { return }
         
         let record = PlateScanRecord(plate: plate, location: location, timestamp: Date())
         scanRecords.append(record)
