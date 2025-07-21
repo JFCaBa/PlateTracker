@@ -14,6 +14,16 @@ final class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabs()
+        configureTabBarAppearance()
+    }
+    
+    private func configureTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground() // removes transparency
+        appearance.backgroundColor = .systemBackground 
+
+        tabBar.standardAppearance = appearance
+        tabBar.scrollEdgeAppearance = appearance // Important for iOS 15+
     }
     
     private func setupTabs() {
